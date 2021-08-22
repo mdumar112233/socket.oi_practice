@@ -10,9 +10,23 @@ io.on('connection', (socket) => {
     console.log('user connected')
 
 
-    setTimeout(() => {
-        socket.send('server send data to client')
-    }, 3000)
+    // setTimeout(() => {
+    //     socket.send('server send data to client')
+    // }, 3000)
+
+    // custom event create
+    // setInterval(() => {
+    //     let d = new Date();
+    //     let t = d.getTime();
+    //     socket.emit('MyEvent', t)
+    // }, 2000);
+
+    // data coming from client
+
+    socket.on('message', (msg) => {
+        console.log(msg);
+    })
+
 
     socket.on('disconnect', () => {
         console.log('user disconnect')
