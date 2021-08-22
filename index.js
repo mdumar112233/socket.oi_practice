@@ -6,9 +6,21 @@ const expressServer = http.createServer(app);
 const {Server} = require('socket.io');
 const io = new Server(expressServer);
 
-io.on('connection', (socket) => {
-    console.log('user connected')
+// BROADCAST WITH NAMESPACE
+let buyNameSpace = io.of('/buy');
+let sellNameSpace = io.of('/sell');
 
+buyNameSpace.on('connection', (socket) => {
+    buyNameSpace.emit('MyEvent', 'buy name space')
+})
+
+sellNameSpace.on('connection', (socket) => {
+    sellNameSpace.emit('MyEvent', 'sell name space')
+})
+
+// USER SOCKET CONNECTION AND DISCONNECT
+// io.on('connection', (socket) => {
+//     console.log('user connected')
 
     // setTimeout(() => {
     //     socket.send('server send data to client')
@@ -22,16 +34,26 @@ io.on('connection', (socket) => {
     // }, 2000);
 
     // data coming from client
+    // socket.on('message', (msg) => {
+    //     console.log(msg);
+    // })
 
-    socket.on('message', (msg) => {
-        console.log(msg);
-    })
+    // data coming from client with custom event
+    // socket.on('MyEvent', (msg) => {
+    //     console.log(msg);
+    // })
+
+    // BROADCAST FOR ALL USER
+    // io.sockets.emit('MyBroadcast', 'hello everyone')
 
 
-    socket.on('disconnect', () => {
-        console.log('user disconnect')
-    })
-})
+
+
+    // USER DISCONNECT WITH SOCKET.OI
+//     socket.on('disconnect', () => {
+//         console.log('user disconnect')
+//     })
+// })
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname+'/index.html')
