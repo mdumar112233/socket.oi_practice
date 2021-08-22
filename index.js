@@ -9,6 +9,11 @@ const io = new Server(expressServer);
 io.on('connection', (socket) => {
     console.log('user connected')
 
+
+    setTimeout(() => {
+        socket.send('server send data to client')
+    }, 3000)
+
     socket.on('disconnect', () => {
         console.log('user disconnect')
     })
